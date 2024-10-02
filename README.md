@@ -8,7 +8,7 @@ The script is currently in beta stage! It is not yet intended for productive use
 
 It provides important commands for maintaining Paperless-ngx in menu form. It is based on a docker-compose installation in the path “paperless-ngx”. The script is commented so that you can easily make your own adjustments.
 
-![](assets/screen1_paperless_commander.png)
+![](assets/screen2_paperless_commander.png)
 
 ## Installation and call
 
