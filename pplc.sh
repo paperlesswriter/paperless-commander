@@ -42,13 +42,13 @@ reindex() {
 
 # Menü-Funktion
 show_menu() {
-    local options=("Update von Paperless-ngx" "Export der Dateien" "Import der Dateien" "Container runterfahren" "Container neu starten" "Reindex" "Beenden")
+    local options=("Update Paperless-ngx" "Export settings and documents" "Import settings and documents" "Stop Container" "Start Container" "Reindex all" "Exit")
     local selected=0
 
     while true; do
         clear
         echo -e "${WHITE_FG}${BLUE_BG}╔══════════════════════════════════════════════════╗${RESET}"
-        echo -e "${WHITE_FG}${BLUE_BG}║            Menü für Paperless-ngx                ║${RESET}"
+        echo -e "${WHITE_FG}${BLUE_BG}║            Paperless-ngx Commander                ║${RESET}"
         echo -e "${WHITE_FG}${BLUE_BG}╠══════════════════════════════════════════════════╣${RESET}"
 
         for i in "${!options[@]}"; do
@@ -60,7 +60,7 @@ show_menu() {
         done
 
         echo -e "${WHITE_FG}${BLUE_BG}╚══════════════════════════════════════════════════╝${RESET}"
-        echo -e "${WHITE_FG}${BLUE_BG}Benutzen Sie die Pfeiltasten ↑↓ oder Ziffern zum Auswählen${RESET}"
+        echo -e "${WHITE_FG}${BLUE_BG}Use the arrow keys ↑↓ or digits to select${RESET}"
 
         read -sn1 key
         case "$key" in
