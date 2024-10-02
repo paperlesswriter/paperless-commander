@@ -11,11 +11,11 @@ It provides important commands for maintaining Paperless-ngx in menu form. It is
 
 ## Installation and call
 
-1. download “paperless-commander.sh” to the corresponding path (e.g. as “/home/pi/paperless-ngx”).
-2. assign authorization: chmod +x paperless-commander.sh.
-3. start with ./paperless-commander.sh
+1. download “pplc.sh” to the corresponding path (e.g. as “/home/pi/paperless-ngx”).
+2. assign authorization: chmod +x pplc.sh.
+3. start with ./pplc.sh
 
-Translated with DeepL.com (free version)
+
 
 ## Was kann das Skript?
 
@@ -25,9 +25,9 @@ Es stellt wichtige Befehle für die Pflege von [Paperless-ngx](https://docs.pape
 
 ## Installation und Aufruf
 
-1. Download von "paperless-commander.sh" in den entsprechenden Pfad (als z. B. "/home/pi/paperless-ngx").
-2. Berechtigung vergeben: chmod +x paperless-commander.sh.
-3. Start mit ./paperless-commander.sh
+1. Download von "pplc.sh" in den entsprechenden Pfad (als z. B. "/home/pi/paperless-ngx").
+2. Berechtigung vergeben: chmod +x pplc.sh.
+3. Start mit ./pplc.sh
 
 
 
