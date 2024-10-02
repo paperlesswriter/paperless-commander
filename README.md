@@ -22,5 +22,5 @@ https://digital-cleaning.de/index.php/paperless-ngx-auf-dem-raspberry-pi-erstaun
 
 
 
-![](assets/screen3_paperless_commander.png)
+![](assets/screen4_paperless_commander.png)
 
