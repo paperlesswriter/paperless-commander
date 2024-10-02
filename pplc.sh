@@ -1,104 +1,91 @@
 #!/bin/bash
 
-# Bash-Script für Paperless-ngx Auswahlmenü
+# Paperless-ngx Commander (pplc)
+# This script assumes a docker-compose installation of Paperless-ngx in the "paperless-ngx" directory.
+# Documents and exports are also located in this directory.
+# To adapt this script to your own installation:
+# 1. Change the 'paperless_dir' variable to match your Paperless-ngx installation path.
+# 2. Adjust the docker-compose command if your setup differs (e.g., different service name).
+# 3. Modify file paths in the script to match your directory structure if needed.
 
-# Farbdefinitionen
-BLUE_BG='\033[44m'
-WHITE_FG='\033[97m'
-CUSTOM_GREEN='\033[48;2;92;128;132m'
-RESET='\033[0m'
+paperless_dir="/home/herby/paperless-ngx"
 
-# Funktionsdefinitionen
-update_paperless() {
-    echo -e "${WHITE_FG}${CUSTOM_GREEN}Updating Paperless-ngx...${RESET}"
-    docker-compose -f /path/to/docker-compose.yml pull
-    docker-compose -f /path/to/docker-compose.yml up -d
-}
-
-export_files() {
-    echo -e "${WHITE_FG}${CUSTOM_GREEN}Exporting files...${RESET}"
-    docker-compose -f /path/to/docker-compose.yml run --rm webserver document_exporter ../export
-}
-
-import_files() {
-    echo -e "${WHITE_FG}${CUSTOM_GREEN}Importing files...${RESET}"
-    docker-compose -f /path/to/docker-compose.yml run --rm webserver document_importer ../import
-}
-
-stop_containers() {
-    echo -e "${WHITE_FG}${CUSTOM_GREEN}Stopping containers...${RESET}"
-    docker-compose -f /path/to/docker-compose.yml down
-}
-
-restart_containers() {
-    echo -e "${WHITE_FG}${CUSTOM_GREEN}Restarting containers...${RESET}"
-    docker-compose -f /path/to/docker-compose.yml up -d
-}
-
-reindex() {
-    echo -e "${WHITE_FG}${CUSTOM_GREEN}Reindexing...${RESET}"
-    docker-compose -f /path/to/docker-compose.yml run --rm webserver manage document_index reindex
-}
-
-# Menü-Funktion
+# Function to display the main menu
 show_menu() {
-    local options=("Update Paperless-ngx" "Export settings and documents" "Import settings and documents" "Stop Container" "Start Container" "Reindex all" "Exit")
-    local selected=0
-
-    while true; do
-        clear
-        echo -e "${WHITE_FG}${BLUE_BG}╔══════════════════════════════════════════════════╗${RESET}"
-        echo -e "${WHITE_FG}${BLUE_BG}║            Paperless-ngx Commander                ║${RESET}"
-        echo -e "${WHITE_FG}${BLUE_BG}╠══════════════════════════════════════════════════╣${RESET}"
-
-        for i in "${!options[@]}"; do
-            if [ $i -eq $selected ]; then
-                echo -e "${WHITE_FG}${CUSTOM_GREEN}║ $((i+1)). ${options[$i]}$(printf '%*s' $((47 - ${#options[$i]})) )║${RESET}"
-            else
-                echo -e "${WHITE_FG}${BLUE_BG}║ $((i+1)). ${options[$i]}$(printf '%*s' $((47 - ${#options[$i]})) )║${RESET}"
-            fi
-        done
-
-        echo -e "${WHITE_FG}${BLUE_BG}╚══════════════════════════════════════════════════╝${RESET}"
-        echo -e "${WHITE_FG}${BLUE_BG}Use the arrow keys ↑↓ or digits to select${RESET}"
-
-        read -sn1 key
-        case "$key" in
-            A) # Pfeil nach oben
-                ((selected--))
-                [ $selected -lt 0 ] && selected=$((${#options[@]} - 1))
-                ;;
-            B) # Pfeil nach unten
-                ((selected++))
-                [ $selected -ge ${#options[@]} ] && selected=0
-                ;;
-            [1-7]) # Zifferneingabe
-                selected=$((key - 1))
-                return $selected
-                ;;
-            "") # Enter
-                return $selected
-                ;;
-        esac
-    done
+    echo "Paperless-ngx Commander"
+    echo "1. Start Paperless-ngx"
+    echo "2. Stop Paperless-ngx"
+    echo "3. Restart Paperless-ngx"
+    echo "4. Check Paperless-ngx Status"
+    echo "5. Export Documents"
+    echo "6. Import Documents"
+    echo "7. Update Paperless-ngx"
+    echo "8. Exit"
 }
 
-# Hauptschleife
+# Main loop for user interaction
 while true; do
     show_menu
-    choice=$?
+    read -p "Enter your choice: " choice
 
     case $choice in
-        0) update_paperless ;;
-        1) export_files ;;
-        2) import_files ;;
-        3) stop_containers ;;
-        4) restart_containers ;;
-        5) reindex ;;
-        6) break ;;
+        1)
+            # Start Paperless-ngx services
+            echo "Starting Paperless-ngx..."
+            cd $paperless_dir && docker-compose up -d
+            ;;
+        2)
+            # Stop Paperless-ngx services
+            echo "Stopping Paperless-ngx..."
+            cd $paperless_dir && docker-compose down
+            ;;
+        3)
+            # Restart Paperless-ngx services
+            echo "Restarting Paperless-ngx..."
+            cd $paperless_dir && docker-compose restart
+            ;;
+        4)
+            # Check the status of Paperless-ngx services
+            echo "Checking Paperless-ngx status..."
+            cd $paperless_dir && docker-compose ps
+            ;;
+        5)
+            # Export documents from Paperless-ngx
+            echo "Exporting documents..."
+            cd $paperless_dir && docker-compose run --rm webserver document_exporter ../export
+            echo "Export completed. Files are in the 'export' directory."
+            ;;
+        6)
+            # Import documents into Paperless-ngx
+            echo "Importing documents..."
+            read -p "Enter the path to the directory containing documents to import: " import_dir
+            if [ -d "$import_dir" ]; then
+                cd $paperless_dir && docker-compose run --rm webserver document_importer "$import_dir"
+                echo "Import completed."
+            else
+                echo "Error: The specified directory does not exist."
+            fi
+            ;;
+        7)
+            # Update Paperless-ngx to the latest version
+            echo "Updating Paperless-ngx..."
+            cd $paperless_dir
+            docker-compose pull
+            docker-compose up -d
+            echo "Update completed."
+            ;;
+        8)
+            # Exit the script
+            echo "Exiting Paperless-ngx Commander. Goodbye!"
+            exit 0
+            ;;
+        *)
+            # Handle invalid input
+            echo "Invalid option. Please try again."
+            ;;
     esac
 
     echo
-    echo -e "${WHITE_FG}${BLUE_BG}Drücken Sie eine Taste, um fortzufahren...${RESET}"
-    read -n 1
+    read -p "Press Enter to continue..."
+    clear
 done
