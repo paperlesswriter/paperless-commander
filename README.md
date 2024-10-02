@@ -16,5 +16,11 @@ It provides important commands for maintaining Paperless-ngx in menu form. It is
 2. assign authorization: chmod +x pplc.sh.
 3. start with ./pplc.sh
 
+## Detailed tutorial for Paperless-ngx
 
+https://digital-cleaning.de/index.php/paperless-ngx-auf-dem-raspberry-pi-erstaunlich-gut-teil-1/
+
+
+
+![](assets/screen3_paperless_commander.png)
 
