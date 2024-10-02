@@ -2,7 +2,7 @@
 Bash script for Paperless-ngx.
 
 ## Attention!
-The script is currently in beta stage! It is not yet intended for productive use. 
+The script is currently in beta stage! It is not yet intended for productive use! 
 
 ## What can the script do?
 
